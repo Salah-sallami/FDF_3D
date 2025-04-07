@@ -6,7 +6,7 @@
 /*   By: ssallami <ssallami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:00:32 by ssallami          #+#    #+#             */
-/*   Updated: 2025/04/03 16:54:27 by ssallami         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:03:08 by ssallami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # define FD_MAX 8192
 
 # include "minilibx/mlx.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -111,6 +113,7 @@ float			ft_abs(float n);
 int				ft_ipart(float n);
 float			ft_fpart(float n);
 float			ft_rfpart(float n);
+void			ft_return_error(const char *err_msg, int system_function);
 
 // Controls
 void			ft_hook_controls(t_fdf *env);

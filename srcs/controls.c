@@ -6,7 +6,7 @@
 /*   By: ssallami <ssallami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:50:37 by ssallami          #+#    #+#             */
-/*   Updated: 2025/04/03 15:29:04 by ssallami         ###   ########.fr       */
+/*   Updated: 2025/04/06 17:55:04 by ssallami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	ft_close_win(void *params)
 	}
 	free(env->map->array);
 	free(env->map);
-	free(env->mlx);
 	free(env);
 	exit(0);
 }

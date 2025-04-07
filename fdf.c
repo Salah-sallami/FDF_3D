@@ -6,7 +6,7 @@
 /*   By: ssallami <ssallami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:52:01 by ssallami          #+#    #+#             */
-/*   Updated: 2025/04/03 15:55:27 by ssallami         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:01:34 by ssallami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,24 @@ static t_fdf	*ft_init(const char *path)
 	title = ft_strjoin("FdF - ", path);
 	env = (t_fdf *)malloc(sizeof(t_fdf));
 	if (!env)
-		ft_putendl_fd("malloc error", 1);
+		ft_return_error("malloc error", 1);
 	env->mlx = mlx_init();
 	if (!env->mlx)
-		ft_putendl_fd("error connecting to graphics server", 1);
+		ft_return_error("error connecting to graphics server", 1);
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, title);
 	if (!env->win)
-		ft_putendl_fd("error initializing window", 1);
+		ft_return_error("error initializing window", 1);
 	free(title);
 	env->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
 	if (!env->img)
-		ft_putendl_fd("error initializing image", 1);
+		ft_return_error("error initializing image", 1);
 	env->data_addr = mlx_get_data_addr(env->img, &env->bpp, &env->size_line,
 			&env->endian);
 	env->map = NULL;
 	env->camera = NULL;
 	env->mouse = (t_mouse *)malloc(sizeof(t_mouse));
 	if (!env->mouse)
-		ft_putendl_fd("error initializing mouse", 1);
+		ft_return_error("error initializing mouse", 1);
 	return (env);
 }
 
@@ -47,7 +47,7 @@ static t_camera	*ft_camera_init(t_fdf *env)
 
 	camera = (t_camera *)malloc(sizeof(t_camera));
 	if (!camera)
-		ft_putendl_fd("error initializing camera", 1);
+		ft_return_error("error initializing camera", 1);
 	camera->zoom = ft_min(WIDTH / env->map->width / 2, HEIGHT / env->map->height
 			/ 2);
 	camera->x_angle = -0.615472907;
@@ -66,7 +66,7 @@ static t_map	*ft_map_init(void)
 
 	map = (t_map *)malloc(sizeof(t_map));
 	if (!map)
-		ft_putendl_fd("error initializing map", 1);
+		ft_return_error("error initializing map", 1);
 	map->height = 0;
 	map->width = 0;
 	map->array = NULL;
@@ -90,5 +90,5 @@ int	main(int argc, char *argv[])
 		mlx_loop(env->mlx);
 	}
 	else
-		ft_putendl_fd("Usage: ./fdf <filename>", 0);
+		ft_return_error("Usage: ./fdf <filename>", 0);
 }

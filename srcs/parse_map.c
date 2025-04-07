@@ -6,7 +6,7 @@
 /*   By: ssallami <ssallami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:51:23 by ssallami          #+#    #+#             */
-/*   Updated: 2025/04/03 15:55:27 by ssallami         ###   ########.fr       */
+/*   Updated: 2025/04/06 17:12:39 by ssallami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ft_get_height(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		ft_putendl_fd("open error", 1);
+		ft_return_error("open error", 1);
 	height = 0;
 	while (get_next_line(fd, &line) >= 0 && *line != '\0')
 	{
@@ -29,7 +29,7 @@ static int	ft_get_height(char *filename)
 	}
 	free(line);
 	if (close(fd) == -1)
-		ft_putendl_fd("close error", 1);
+		ft_return_error("close error", 1);
 	return (height);
 }
 
@@ -43,11 +43,11 @@ static int	ft_get_width(char *filename)
 	i = -1;
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		ft_putendl_fd("open error", 1);
+		ft_return_error("open error", 1);
 	width = 0;
 	get_next_line(fd, &line);
 	if (*line == '\0')
-		ft_putendl_fd("invalid map (empty)", 0);
+		ft_return_error("invalid map (empty)", 0);
 	while (line[++i])
 		if (line[i] != ' ' && (line[i + 1] == ' ' || line[i + 1] == '\0'))
 			width++;
@@ -56,7 +56,7 @@ static int	ft_get_width(char *filename)
 		free(line);
 	free(line);
 	if (close(fd) == -1)
-		ft_putendl_fd("close error", 1);
+		ft_return_error("close error", 1);
 	return (width);
 }
 
@@ -72,7 +72,7 @@ static void	ft_fill_table(int **n, char *line, int width)
 	{
 		n[i] = malloc(sizeof(int) * 2);
 		if (!n[i])
-			ft_putendl_fd("malloc error", 1);
+			ft_return_error("malloc error", 1);
 		n[i][0] = ft_atoi(num[i]);
 		j = 0;
 		while (num[i][j] && num[i][j] != ',')
@@ -84,7 +84,7 @@ static void	ft_fill_table(int **n, char *line, int width)
 		free(num[i]);
 	}
 	if (i != width || num[i])
-		ft_putendl_fd("error: fdf file has irregular width", 0);
+		ft_return_error("error: fdf file has irregular width", 0);
 	free(num);
 }
 
@@ -121,21 +121,21 @@ void	ft_check_valid(char *filename, t_map *map)
 	map->height = ft_get_height(filename);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		ft_putendl_fd("open error", 1);
+		ft_return_error("open error", 1);
 	i = -1;
 	map->array = malloc(sizeof(int **) * map->height);
 	if (!map->array)
-		ft_putendl_fd("malloc error", 1);
+		ft_return_error("malloc error", 1);
 	while (get_next_line(fd, &line) >= 0 && *line != '\0')
 	{
 		map->array[++i] = malloc(sizeof(int *) * map->width);
 		if (!map->array[i])
-			ft_putendl_fd("malloc error", 1);
+			ft_return_error("malloc error", 1);
 		ft_fill_table(map->array[i], line, map->width);
 		free(line);
 	}
 	free(line);
 	ft_get_z_min_max(map);
 	if (close(fd) == -1)
-		ft_putendl_fd("close error", 1);
+		ft_return_error("close error", 1);
 }
